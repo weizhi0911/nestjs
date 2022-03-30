@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '../entities/user/User.entity';
+import { User } from '../../entities/user/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -8,7 +8,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   root(): string {
     return 'userService';
@@ -33,6 +33,16 @@ export class UserService {
     // let res = await this.userRepository.find({name: 'longmao'})
     console.log('option user: ', res);
 
+    return res;
+  }
+
+  async getOne(option: object): Promise<any> {
+    const res = await this.userRepository.findOne({
+      where: [option],
+
+    });
+    // let res = await this.userRepository.find({name: 'longmao'})
+    console.log('option getOne: ', res);
     return res;
   }
 
