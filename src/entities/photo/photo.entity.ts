@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToOne, ManyToMany, PrimaryColumn } from 'typeorm';
 import { PhotoMetadata } from '../photoMetadata/photoMetadata.entity'
-import { Author  } from "../author/author.entity";
-import { Albums  } from "../albums/albums.entity";
+import { Author } from "../author/author.entity";
+import { Albums } from "../albums/albums.entity";
 
 @Entity()
 export class Photo {
@@ -9,17 +9,26 @@ export class Photo {
   @PrimaryGeneratedColumn() // 自动生成id
   id: number;
 
-
   @Column({
     type: 'varchar',
   })
   name: string;
 
-  // @Column()
-  // authorId: number;
+  @Column({
+    type: "blob",
+    default:null
+  })
+  imgFile: any;
+
+  @Column({
+    type: "varchar",
+    default: ''
+  })
+  url: string;
 
   @Column({
     type: 'varchar',
+    default: ''
   })
   description: string;
 
@@ -28,9 +37,6 @@ export class Photo {
   })
   filename: string;
 
-  @Column()
-  isPublished: boolean;
-  
   // 一对一关系
   // 添加PhotoMetadata的反向关系
   // * cascade可以在保存其他对象的同时保存相关对象，接口方法里记得要改连接关系

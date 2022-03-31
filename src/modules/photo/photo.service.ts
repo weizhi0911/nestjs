@@ -27,6 +27,11 @@ export class PhotoService {
     return res;
   }
 
+  async upload(): Promise<any> {
+    const res = await this.photoRepository.find();
+    return res;
+  }
+
   async takeOut() {
     // * metadata为entity里的一对一关系，代表着查photo_metadata表的对应数据
     const res = await this.photoRepository.find({ relations: ["metadata"] })

@@ -1,4 +1,6 @@
-import { Controller, Get, Query } from '@nestjs/common'
+import { Controller, Get, Post, Query, Body, UseInterceptors, UploadedFile } from '@nestjs/common'
+import { FileInterceptor,FilesInterceptor } from '@nestjs/platform-express';
+
 import { PhotoService } from './photo.service';
 import { Photo } from '../../entities/photo/photo.entity'
 import { PhotoMetadata } from "../../entities/photoMetadata/photoMetadata.entity";
@@ -18,13 +20,36 @@ export class PhotoController {
     return this.photoService.getList();
   }
 
+  // @Get('save')
+  // save(user: Photo) {
+  //   return this.photoService.save(user);
+  // }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('imgFile'))
+  async upload(@UploadedFile() file){
+    file.url = file.fieldname // 路径到时候要可访问，之后添加
+    let photo = new Photo();
+    photo.imgFile = file.buffer
+    photo.url = 'url'
+    photo.name = file.originalname
+    photo.filename = file.fieldname
+
+
+    await this.photoService.save(photo);
+
+    return {
+      code: 200,
+      file: file
+    }
+  }
+
   @Get('establish')
   async establish() {
     let photo = new Photo();
     photo.name = "Me and Bears";
     photo.description = "I am near polar bears";
     photo.filename = "photo-with-bears.jpg";
-    photo.isPublished = true;
 
     let metadata = new PhotoMetadata()
     metadata.height = 640;
@@ -73,7 +98,6 @@ export class PhotoController {
     photo.name = "author and Bears";
     photo.description = "author am near polar bears";
     photo.filename = "author-with-bears.jpg";
-    photo.isPublished = true;
 
     let author = new Author();
     author.name = "Bears";
@@ -91,7 +115,6 @@ export class PhotoController {
     photo.name = "11111Me and Bears";
     photo.description = "1111I am near polar bears";
     photo.filename = "1photo-with-bears.jpg";
-    photo.isPublished = true;
 
     let album1 = new Albums();
     album1.name = "Bears";
