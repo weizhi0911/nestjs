@@ -21,8 +21,33 @@ export class PhotoService {
     return res;
   }
 
-  async getList() {
-    const res = await this.photoRepository.find()
+
+  async getList(): Promise<any> {
+    const res = await this.photoRepository.find();
+    return res;
+  }
+
+  async takeOut() {
+    // * metadata为entity里的一对一关系，代表着查photo_metadata表的对应数据
+    const res = await this.photoRepository.find({ relations: ["metadata"] })
+    return res;
+  }
+
+  async takeOutMetadata() {
+    const res = await this.photoRepository.createQueryBuilder("photo").innerJoinAndSelect("photo.metadata", "metadata").getMany()
+    console.log(res)
+    return res;
+  }
+
+  async takeOutAuthor(option: Object) {
+    const res = await this.photoRepository.findOne({ where: [option], relations: ["author"] });
+    console.log(res)
+    return res;
+  }
+
+  async takeOutAlbums(option: Object) {
+    const res = await this.photoRepository.findOne({ where: [option], relations: ["albums"] });
+    console.log(res)
     return res;
   }
 }

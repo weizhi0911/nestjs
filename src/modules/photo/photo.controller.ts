@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Query } from '@nestjs/common'
 import { PhotoService } from './photo.service';
-import { PhotoMetadataService } from '../photoMetadata/photoMetadata.service';
 import { Photo } from '../../entities/photo/photo.entity'
 import { PhotoMetadata } from "../../entities/photoMetadata/photoMetadata.entity";
+import { Albums } from "../../entities/albums/albums.entity";
+import { Author } from "../../entities/author/author.entity";
 
 @Controller('photo')
 export class PhotoController {
-  constructor(private readonly photoService: PhotoService, private readonly photoMetadataService: PhotoMetadataService) { }
+  constructor(private readonly photoService: PhotoService) { }
   @Get()
   root(): string {
     return this.photoService.root();
@@ -31,12 +32,89 @@ export class PhotoController {
     metadata.compressed = true;
     metadata.comment = "cybershoot";
     metadata.orientation = "portait";
-    metadata.photo = photo; // 联接两者
+
+    photo.metadata = metadata;
 
     await this.photoService.save(photo)
-    await this.photoMetadataService.save(metadata)
+    return 'OK'
+  }
 
-    console.log("Metadata is saved, and relation between metadata and photo is created in the database too");
+
+
+  @Get('takeOut')
+  async takeOut() {
+    return this.photoService.takeOut()
+  }
+
+  @Get('takeOutMetadata')
+  async takeOutMetadata() {
+    return this.photoService.takeOutMetadata()
+  }
+
+  // id查询
+  @Get('takeOutAuthor')
+  async takeOutAuthor(@Query() query): Promise<any> {
+    let photo = new Photo();
+
+    if (query.id) {
+      photo.id = Number(query.id)
+    }
+    //  if (query.authorId) {
+    //   photo.authorId = Number(query.authorId)
+    //   console.log(query.authorId)
+    // }
+    return this.photoService.takeOutAuthor(photo)
+  }
+
+
+  @Get('establishAuthor')
+  async establishAuthor() {
+    let photo = new Photo();
+    photo.name = "author and Bears";
+    photo.description = "author am near polar bears";
+    photo.filename = "author-with-bears.jpg";
+    photo.isPublished = true;
+
+    let author = new Author();
+    author.name = "Bears";
+    photo.author = author;
+
+    await this.photoService.save(photo)
+    // await this.photoMetadataService.save(metadata)
+    return 'OK'
+  }
+
+
+  @Get('establishAlbums')
+  async establishAlbums() {
+    let photo = new Photo();
+    photo.name = "11111Me and Bears";
+    photo.description = "1111I am near polar bears";
+    photo.filename = "1photo-with-bears.jpg";
+    photo.isPublished = true;
+
+    let album1 = new Albums();
+    album1.name = "Bears";
+    // await connection.manager.save(album1);
+    let album2 = new Albums();
+    album2.name = "Me";
+
+    // metadata.photo = photo; // 联接两者
+    photo.albums = [album1, album2];
+
+    await this.photoService.save(photo)
+    // await this.photoMetadataService.save(metadata)
+    return 'OK'
+  }
+  // id查询
+  @Get('takeOutAlbums')
+  async takeOutAlbums(@Query() query): Promise<any> {
+    let photo = new Photo();
+
+    if (query.id) {
+      photo.id = Number(query.id)
+    }
+    return this.photoService.takeOutAlbums(photo)
   }
 
 }
