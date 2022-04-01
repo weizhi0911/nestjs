@@ -14,11 +14,11 @@ export class Photo {
   })
   name: string;
 
-  @Column({
-    type: "blob",
-    default:null
-  })
-  imgFile: any;
+  // @Column({
+  //   type: "longblob",
+  //   default:null
+  // })
+  // imgFile: any;
 
   @Column({
     type: "varchar",
@@ -36,6 +36,11 @@ export class Photo {
     type: 'varchar',
   })
   filename: string;
+
+  @Column({
+    type: 'timestamp',
+  })
+  createTime: string;
 
   // 一对一关系
   // 添加PhotoMetadata的反向关系

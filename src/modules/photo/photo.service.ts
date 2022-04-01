@@ -17,7 +17,6 @@ export class PhotoService {
 
   async save(user: Photo): Promise<any> {
     const res = await this.photoRepository.save(user);
-    console.log('save: ', res);
     return res;
   }
 
@@ -27,8 +26,12 @@ export class PhotoService {
     return res;
   }
 
-  async upload(): Promise<any> {
-    const res = await this.photoRepository.find();
+  async getImgUrl(id: number): Promise<any> {
+    const res = await this.photoRepository.findOne({
+      where: {
+        id
+      }
+    });
     return res;
   }
 

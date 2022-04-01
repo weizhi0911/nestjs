@@ -15,9 +15,20 @@ export class User {
   })
   name: string;
 
-  @Column()
+  @Column({
+    type: 'varchar'
+  })
+  password: string;
+
+  @Column({
+    type: 'varchar',
+    default: null
+  })
   age: number;
 
-  @Column()
+  @Column({
+    type: 'varchar',
+    default: null
+  })
   gender: string;
 }

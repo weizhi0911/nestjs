@@ -16,9 +16,32 @@ export class UserService {
 
   // 当user带有id时，save = update；当user没有id时，save = add
   async save(user: User): Promise<any> {
-    const res = await this.userRepository.save(user);
-    console.log('save: ', res);
+    const option = await this.userRepository.findOne({
+      where: {
+        name: user.name
+      }
+    });
+    console.log(option)
+    const res = await this.userRepository.save(option || user);
     return res;
+  }
+
+  async login(user: User): Promise<any> {
+    const option = await this.userRepository.findOne({
+      where: user
+    });
+
+    if (option) {
+      return {
+        code: 200,
+        msg: '登录成功'
+      }
+    }else{
+      return {
+        code: 500,
+        msg: '该用户未注册'
+      }
+    }
   }
 
   async getAll(): Promise<any> {

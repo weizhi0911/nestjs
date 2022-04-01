@@ -7,7 +7,13 @@ import { UserModule } from './modules/user/user.module';
 import { PhotoModule } from './modules/photo/photo.module';
 import { PhotoMetadataModule } from './modules/photoMetadata/photoMetadata.module';
 import { AuthorModule } from './modules/author/author.module';
+import { CosModule } from './modules/cos/cos.module';
 
+import { User } from './entities/user/user.entity';
+import { Photo } from './entities/photo/photo.entity';
+import { PhotoMetadata } from './entities/photoMetadata/photoMetadata.entity';
+import { Author } from './entities/author/author.entity';
+import { Albums } from './entities/albums/albums.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -19,13 +25,14 @@ import { AuthorModule } from './modules/author/author.module';
       password: 'root',
       database: 'nest_node',
       synchronize: true,
-      // entities: [User, Photo, PhotoMetadata, Author, Albums],
-      entities: [__dirname + "/**/*.entity{.ts,.js} "], // 以文件扫描实体
+      entities: [User, Photo, PhotoMetadata, Author, Albums],
+      // entities: [__dirname + "/**/*.entity{.ts,.js} "], // 以文件扫描实体
     }),
     UserModule,
     PhotoModule,
     PhotoMetadataModule,
-    AuthorModule
+    AuthorModule,
+    CosModule
   ],
   controllers: [AppController],
   providers: [AppService],

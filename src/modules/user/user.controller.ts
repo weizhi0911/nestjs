@@ -1,30 +1,33 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Body, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '../../entities/user/user.entity';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Get()
   root(): string {
     return this.userService.root();
   }
 
-  @Get('save')
+
+  @Post('login')
+  async login(@Query() query): Promise<any> {
+    const data = await this.userService.login(query)
+    return data;
+  }
+
+  @Post('save')
   async save(@Query() query): Promise<any> {
-    // console.log(query);
     const user = new User();
     user.name = query.name;
-    user.gender = query.gender;
-    user.age = Number(query.age);
+    user.password = query.password;
     if (query.id) {
       user.id = Number(query.id);
     }
 
     const data = await this.userService.save(user)
-    console.log('data')
-
     return data;
   }
 

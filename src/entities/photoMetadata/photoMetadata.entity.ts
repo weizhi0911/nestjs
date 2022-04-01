@@ -12,14 +12,20 @@ export class PhotoMetadata {
   @Column("int")
   width: number;
 
-  @Column()
-  orientation: string;
+  @Column({
+    type: 'varchar',
+    default: ''
+  })
+  description: string;
 
-  @Column()
-  compressed: boolean;
+  // @Column()
+  // orientation: string;
 
-  @Column()
-  comment: string;
+  // @Column()
+  // compressed: boolean;
+
+  // @Column()
+  // comment: string;
 
   // 
 
