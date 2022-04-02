@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Body, Post } from '@nestjs/common';
+import { Controller, Get, Query, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '../../entities/user/user.entity';
 
@@ -40,6 +40,11 @@ export class UserController {
       query.age = Number(query.age);
     }
     return this.userService.get(query);
+  }
+
+  @Get('getList')
+  getList(): any {
+    return this.userService.getList();
   }
 
   @Get('getOne')

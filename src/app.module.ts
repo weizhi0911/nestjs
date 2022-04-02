@@ -2,12 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import { PhotoModule } from './modules/photo/photo.module';
 import { PhotoMetadataModule } from './modules/photoMetadata/photoMetadata.module';
 import { AuthorModule } from './modules/author/author.module';
 import { CosModule } from './modules/cos/cos.module';
+import { CatsModule } from './modules/cats/cats.module';
 
 import { User } from './entities/user/user.entity';
 import { Photo } from './entities/photo/photo.entity';
@@ -32,9 +34,12 @@ import { Albums } from './entities/albums/albums.entity';
     PhotoModule,
     PhotoMetadataModule,
     AuthorModule,
-    CosModule
+    CosModule,
+    CatsModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {
+
+}

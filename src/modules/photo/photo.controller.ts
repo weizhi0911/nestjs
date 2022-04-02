@@ -17,8 +17,6 @@ const Bucket = 'wwf-1306809097';
 const Region = 'ap-nanjing';
 
 const cos = new COS({
-  // Bucket: Bucket,
-  // Region: Region,
   SecretId: 'AKIDBBwUnqc8ON5VfYBXbQyFFzSQ8ZibDYcQ',
   SecretKey: 'YppY0B6j9IAl58uQgeLmwpSnreAPO6Xh'
 });
@@ -32,26 +30,8 @@ export class PhotoController {
 
   @Get('getList')
   async getList() {
-    // await cos.getObjectUrl({
-    //   Bucket: Bucket,
-    //   Region: Region,
-    //   Key: '微信图片_20220322174254 - 副本.jpg',
-    //   Sign: true,
-    // },
-    //   (err, data) => {
-    //     console.log('err', err);
-    //     console.log('data', data);
-    //     return 'err || data'
-    //   }
-
-    // );
     return this.photoService.getList();
   }
-
-  // @Get('save')
-  // save(user: Photo) {
-  //   return this.photoService.save(user);
-  // }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('imgFile'))
