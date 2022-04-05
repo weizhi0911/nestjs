@@ -9,8 +9,6 @@ import { Photo } from '../../entities/photo/photo.entity';
 import { PhotoMetadataModule } from '../photoMetadata/photoMetadata.module';
 // import { CosModule } from '../cos/cos.module';
 
-
-
 @Module({
   imports: [TypeOrmModule.forFeature([Photo]), PhotoMetadataModule, HttpModule],
   controllers: [PhotoController],

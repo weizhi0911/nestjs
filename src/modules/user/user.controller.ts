@@ -1,7 +1,11 @@
-import { Controller, Get, Query, Post } from '@nestjs/common';
+import {
+  Controller, Get, Query, Post, HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '../../entities/user/user.entity';
-
+import { UpdateUserDto } from '../../dto/user.dto';
+// import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) { }
@@ -19,15 +23,12 @@ export class UserController {
   }
 
   @Post('save')
-  async save(@Query() query): Promise<any> {
-    const user = new User();
-    user.name = query.name;
-    user.password = query.password;
-    if (query.id) {
-      user.id = Number(query.id);
-    }
-
-    const data = await this.userService.save(user)
+  @HttpCode(HttpStatus.OK)
+  async save(@Query() query: UpdateUserDto): Promise<any> {
+    // const user = new User();
+    // user.name = query.name;
+    // user.password = query.password;
+    const data = await this.userService.save(query)
     return data;
   }
 

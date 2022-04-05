@@ -31,4 +31,22 @@ export class User {
     default: null
   })
   gender: string;
+
+  @Column({
+    type: 'varchar',
+    default: null
+  })
+  email: string; 
+  
+  @Column({
+    type: 'varchar',
+    default: null
+  })
+  mobile: string;
+
+  @Column({
+    type: 'varchar',
+    default: null
+  })
+  status: number;
 }

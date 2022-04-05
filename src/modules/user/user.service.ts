@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '../../entities/user/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UpdateUserDto } from '../../dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -15,12 +16,11 @@ export class UserService {
   }
 
   // 当user带有id时，save = update；当user没有id时，save = add
-  async save(user: User): Promise<any> {
-    const option = await this.userRepository.findOne({
-      where: user
-    });
-    console.log(option)
-    const res = await this.userRepository.save(option || user);
+  async save(user: UpdateUserDto): Promise<any> {
+    // const option = await this.userRepository.findOne({
+    //   where: user
+    // });
+    const res = await this.userRepository.save(user);
     return res;
   }
 
