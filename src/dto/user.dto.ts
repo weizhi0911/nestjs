@@ -3,16 +3,20 @@ import {
   MinLength,
   MaxLength,
   IsOptional,
-  IsEmail,
+  IsEmail, IsNotEmpty,
   IsMobilePhone,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class UpdateUserDto {
-  @IsOptional()
-  name: string;
+  // @IsOptional()
+  @IsNotEmpty({ message: '用户名不可以为空' })
+  @MaxLength(20, {
+    message: '用户名长度不能大于20位',
+  })
+  username: string;
 
-  @IsOptional()
+  // @IsOptional()
   @MinLength(6, {
     message: '密码长度不能小于6位',
   })
@@ -36,7 +40,7 @@ export class UpdateUserDto {
   gender: string;
 
   @IsOptional()
-  @IsEnum({ 禁用: 0, 可用: 1 },{
+  @IsEnum({ 禁用: 0, 可用: 1 }, {
     message: 'status只能传入数字0或1',
   })
   @Type(() => Number) //如果传递的是string类型，不报错，自动转成number类型

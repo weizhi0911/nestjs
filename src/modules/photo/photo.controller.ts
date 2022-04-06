@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Query, UseInterceptors, UploadedFile } from '@nestjs/common'
+import { Controller, Get, Post, Param, Query, UseInterceptors, UploadedFile, Body } from '@nestjs/common'
 import { HttpService } from '@nestjs/axios';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -7,6 +7,10 @@ import { Photo } from '../../entities/photo/photo.entity'
 import { PhotoMetadata } from "../../entities/photoMetadata/photoMetadata.entity";
 import { Albums } from "../../entities/albums/albums.entity";
 import { Author } from "../../entities/author/author.entity";
+
+import { CreateCatDto } from '../../dto/create-cat.dto';
+import { Roles } from 'src/decorator/roles.decorator';
+
 const sizeOf = require('image-size')
 
 // SECRETID 和 SECRETKEY请登录 https://console.cloud.tencent.com/cam/capi 进行查看和管理
@@ -26,6 +30,12 @@ export class PhotoController {
   @Get()
   root(): string {
     return this.photoService.root();
+  }
+
+  @Post()
+  @Roles('admin')
+  async create(@Body() createCatDto: CreateCatDto) {
+    return this.photoService.create(createCatDto);
   }
 
   @Get('getList')

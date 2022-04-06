@@ -10,12 +10,16 @@ import { PhotoMetadataModule } from './modules/photoMetadata/photoMetadata.modul
 import { AuthorModule } from './modules/author/author.module';
 import { CosModule } from './modules/cos/cos.module';
 import { CatsModule } from './modules/cats/cats.module';
+// import { AuthController } from './modules/auth/auth.controller';
+// import { AuthService } from './modules/auth/auth.service';
+import { AuthModule } from './modules/auth/auth.module';
 
 import { User } from './entities/user/user.entity';
 import { Photo } from './entities/photo/photo.entity';
 import { PhotoMetadata } from './entities/photoMetadata/photoMetadata.entity';
 import { Author } from './entities/author/author.entity';
 import { Albums } from './entities/albums/albums.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -35,7 +39,8 @@ import { Albums } from './entities/albums/albums.entity';
     PhotoMetadataModule,
     AuthorModule,
     CosModule,
-    CatsModule
+    CatsModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

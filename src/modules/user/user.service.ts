@@ -17,29 +17,8 @@ export class UserService {
 
   // 当user带有id时，save = update；当user没有id时，save = add
   async save(user: UpdateUserDto): Promise<any> {
-    // const option = await this.userRepository.findOne({
-    //   where: user
-    // });
     const res = await this.userRepository.save(user);
     return res;
-  }
-
-  async login(user: User): Promise<any> {
-    const option = await this.userRepository.findOne({
-      where: user
-    });
-
-    if (option) {
-      return {
-        code: 200,
-        msg: '登录成功'
-      }
-    } else {
-      return {
-        code: 500,
-        msg: '该用户未注册'
-      }
-    }
   }
 
   async getList(): Promise<any> {
@@ -73,5 +52,13 @@ export class UserService {
     console.log('remove: ', res);
 
     return res;
+  }
+
+  async findOneByName(username: string, password: string): Promise<User> {
+    const data = await this.userRepository.findOne({
+      where: { username, password }
+    });
+
+    return data
   }
 }

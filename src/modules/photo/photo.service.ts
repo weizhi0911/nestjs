@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ExecutionContext } from '@nestjs/common';
 import { Photo } from '../../entities/photo/photo.entity'
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
+import { Cat } from '../../interfaces/cat.interface';
 @Injectable()
 export class PhotoService {
   constructor(
@@ -12,6 +12,10 @@ export class PhotoService {
   ) { }
 
   root(): string {
+    return 'photoService';
+  }
+
+  create(cat: Cat): string {
     return 'photoService';
   }
 
