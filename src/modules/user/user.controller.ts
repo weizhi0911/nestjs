@@ -1,6 +1,6 @@
 import {
   Controller, Get, Query, Post, HttpCode,
-  HttpStatus, UseGuards
+  HttpStatus, UseGuards, Request
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from '../../dto/user.dto';
@@ -31,11 +31,17 @@ export class UserController {
     }
     return this.userService.get(query);
   }
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('getList')
   getList(): any {
     return this.userService.getList();
   }
+  @Get('cookie')
+  getCookie(@Request() req) {
+    console.log(req.cookies);
+    return req.cookies.username;
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('getOne')
   getOne(@Query() query): any {

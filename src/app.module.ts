@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import { PhotoModule } from './modules/photo/photo.module';
@@ -19,6 +18,7 @@ import { Photo } from './entities/photo/photo.entity';
 import { PhotoMetadata } from './entities/photoMetadata/photoMetadata.entity';
 import { Author } from './entities/author/author.entity';
 import { Albums } from './entities/albums/albums.entity';
+import { WsStartGateway } from './ws/ws.gateway';
 
 @Module({
   imports: [
@@ -43,7 +43,7 @@ import { Albums } from './entities/albums/albums.entity';
     AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, WsStartGateway],
 })
 export class AppModule {
 
