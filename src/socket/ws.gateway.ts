@@ -1,7 +1,7 @@
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway } from "@nestjs/websockets";
 
 import * as WebSocket from 'ws';
-@WebSocketGateway(3002)
+@WebSocketGateway(3008)
 
 export class WsStartGateway {
   @SubscribeMessage('hello')

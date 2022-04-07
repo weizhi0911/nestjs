@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionsFilter } from './filter/any-exception.filter';
 import { AuthInterceptor } from './middleware/message.middleware';
 import * as cookieParser from 'cookie-parser';
-import { WsAdapter } from './ws/ws.adapter';
+import { WsAdapter } from './socket/ws.adapter';
 // const logger = (req, res, next) => {
 //   console.log(`Reque22st...`);
 //   next();

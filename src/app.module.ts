@@ -18,7 +18,7 @@ import { Photo } from './entities/photo/photo.entity';
 import { PhotoMetadata } from './entities/photoMetadata/photoMetadata.entity';
 import { Author } from './entities/author/author.entity';
 import { Albums } from './entities/albums/albums.entity';
-import { WsStartGateway } from './ws/ws.gateway';
+import { WsStartGateway } from './socket/ws.gateway';
 
 @Module({
   imports: [
