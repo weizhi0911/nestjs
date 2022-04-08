@@ -5,9 +5,11 @@ import { LoggerMiddleware } from '../../middleware/logger.middleware'
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { User } from '../../entities/user/user.entity';
+import { WsStartModule } from 'src/socket/ws.module';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([User]), WsStartModule],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService]

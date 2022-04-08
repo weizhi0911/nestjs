@@ -12,13 +12,13 @@ import { CatsModule } from './modules/cats/cats.module';
 // import { AuthController } from './modules/auth/auth.controller';
 // import { AuthService } from './modules/auth/auth.service';
 import { AuthModule } from './modules/auth/auth.module';
+import { WsStartModule } from './socket/ws.module';
 
 import { User } from './entities/user/user.entity';
 import { Photo } from './entities/photo/photo.entity';
 import { PhotoMetadata } from './entities/photoMetadata/photoMetadata.entity';
 import { Author } from './entities/author/author.entity';
 import { Albums } from './entities/albums/albums.entity';
-import { WsStartGateway } from './socket/ws.gateway';
 
 @Module({
   imports: [
@@ -40,10 +40,11 @@ import { WsStartGateway } from './socket/ws.gateway';
     AuthorModule,
     CosModule,
     CatsModule,
-    AuthModule
+    AuthModule,
+    WsStartModule
   ],
   controllers: [AppController],
-  providers: [AppService, WsStartGateway],
+  providers: [AppService]
 })
 export class AppModule {
 
