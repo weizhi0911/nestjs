@@ -6,9 +6,11 @@ import { mergeMap, filter } from 'rxjs/operators';
 export class WsAdapter implements WebSocketAdapter {
   constructor(private readonly app: INestApplicationContext) {}
   create(port: number, options: any = {}): any {
+    console.log(2222)
     return new WebSocket.Server({ port, ...options });
   }
   bindClientConnect(server, callback: Function) {
+    console.log(111)
     server.on('connection', callback);
   }
   bindMessageHandlers(
@@ -16,6 +18,7 @@ export class WsAdapter implements WebSocketAdapter {
     handlers: MessageMappingProperties[],
     process: (data: any) => Observable<any>,
   ) {
+
     fromEvent(client, 'message')
       .pipe(
         mergeMap(data => this.bindMessageHandler(data, handlers, process)),

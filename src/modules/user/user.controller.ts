@@ -36,8 +36,8 @@ export class UserController {
   // @UseGuards(JwtAuthGuard)
   @Get('getList')
   getList(): any {
-    this.ws.server.emit("hello", { data: "穷哈哈哈" });
-    this.ws.hello('hello')
+    // this.ws.server.emit("hello", { data: "穷哈哈哈" });
+    // this.ws.hello('hello')
     // console.log(this.ws.server)
 
     return this.userService.getList();

@@ -1,58 +1,65 @@
-import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer, WsResponse } from "@nestjs/websockets";
 
-import * as WebSocket from 'ws';
-import { Server } from "socket.io";
-import { from, map, Observable } from "rxjs";
+import {
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+  MessageBody
+} from '@nestjs/websockets'
+import { Server, Socket } from 'socket.io'
 @WebSocketGateway(3008, {
-  // transports: ['websocket'],
+  // 域名
+  // namespace: '/webSocket',
+  path: '/webSocket',
+  // // 解决跨域
   // allowEIO3: true,
-  cors: {
-    origin: '*'
-  }
+  // cors: {
+  //   origin: /.*/,
+  //   credentials: true,
+  // },
 })
-
 export class WsStartGateway {
-  //供其它模块调用
   @WebSocketServer()
-  server: Server;
-
+  server: Server
+  handleConnection(client: Socket) {
+    this.server.on('connect', () => {
+      console.log('与服务器建立连接成功')
+    })
+  }
   @SubscribeMessage('hello')
   hello(@MessageBody() data: any): any {
-    console.log('获取事件', data)
     return {
       "event": "hello",
       "data": data,
       "msg": 'rustfisher.com'
     };
-
-  }
-  @SubscribeMessage('hello2')
-  hello2(@MessageBody() data: any, @ConnectedSocket() client: WebSocket): any {
-
-    console.log('收到消息 client:', client);
-
-    client.send(JSON.stringify({ event: 'tmp', data: '这里是个临时信息' }));
-
-    return { event: 'hello2', data: data };
-
   }
 
-  @SubscribeMessage('events')
-  onEvent(@MessageBody() data: unknown): Observable<WsResponse<number>> {
-    console.log('监听', data)
-    const event = 'events';
-    const response = [1, 2, 3];
 
-    return from(response).pipe(
-      map(data => ({ event, data })),
-    );
+  // 加入房间
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(client: Socket, payload) {
+    // client.join(payload)
+    console.log(payload)
+    client.emit('joinRoom', payload)
+
+    return{
+      data:'来了'
+    }
   }
 
-  // publecMessage(message: string): void {
-  //   setInterval(() => {
-  //     this.server.emit('hello', `服务器的消息${message}`)
-  //   }, 1000)
-  // }
+  // 离开房间
+  @SubscribeMessage('leaveRoom')
+  handleLeaveRoom(client: Socket, payload) {
+    client.leave(payload.roomId)
+    client.emit('leaveRoom', payload.roomId)
+  }
 
-
+  // 接受网页发送的数据
+  @SubscribeMessage('message')
+  handleMessage(client: any, payload: any) {
+    console.log(payload.message)
+    // 发送网页的数据给flutter端
+    // client.emit('toflutter', payload.message)
+    this.server.emit('toflutter', payload.message)
+  }
 }

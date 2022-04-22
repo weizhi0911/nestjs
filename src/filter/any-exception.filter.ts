@@ -18,7 +18,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     let errorMsg
     let validatorMessage // 自定义错误msg
     // 派生类型传来的信息
-    // if (exception instanceof HttpException) {
+    if (exception instanceof HttpException) {
       const exceptionResponse: any = exception.getResponse()
       validatorMessage = exceptionResponse
       if (typeof validatorMessage === 'object') {
@@ -26,7 +26,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         errorMsg = exceptionResponse.error
         status = exceptionResponse.statusCode
       }
-    // }
+    }
 
 
     response.status(status).json({
