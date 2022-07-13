@@ -66,6 +66,10 @@ export class UserController {
   getList(): any {
     this.ws.server.emit('events', { data: '穷哈哈哈' });
     // this.ws.hello('hello')
+    // this.ws.server.emit("hello", { data: "穷哈哈哈" });
+    // this.ws.hello('hello')
+    // console.log(this.ws.server)
+
     return this.userService.getList();
   }
   @Get('cookie')
