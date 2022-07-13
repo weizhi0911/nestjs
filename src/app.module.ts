@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -9,16 +11,23 @@ import { PhotoMetadataModule } from './modules/photoMetadata/photoMetadata.modul
 import { AuthorModule } from './modules/author/author.module';
 import { CosModule } from './modules/cos/cos.module';
 import { CatsModule } from './modules/cats/cats.module';
+import { UniappModule } from './modules/uniappUpdate/uniappUpdate.module';
+
 // import { AuthController } from './modules/auth/auth.controller';
 // import { AuthService } from './modules/auth/auth.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { WsStartModule } from './socket/ws.module';
+
+import { QrcodeMetadataModule } from './modules/qrcode/qrcode.module';
 
 import { User } from './entities/user/user.entity';
 import { Photo } from './entities/photo/photo.entity';
 import { PhotoMetadata } from './entities/photoMetadata/photoMetadata.entity';
 import { Author } from './entities/author/author.entity';
 import { Albums } from './entities/albums/albums.entity';
+import { UniappUpdate } from './entities/uniappUpdate/uniappUpdate.entity';
+
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -31,9 +40,13 @@ import { Albums } from './entities/albums/albums.entity';
       password: 'root',
       database: 'nest_node',
       synchronize: true,
-      entities: [User, Photo, PhotoMetadata, Author, Albums],
+      entities: [User, Photo, PhotoMetadata, Author, Albums, UniappUpdate],
       // entities: [__dirname + "/**/*.entity{.ts,.js} "], // 以文件扫描实体
     }),
+    // 定时任务start
+    ScheduleModule.forRoot(),
+    TasksModule,
+    // 定时任务end
     UserModule,
     PhotoModule,
     PhotoMetadataModule,
@@ -41,11 +54,11 @@ import { Albums } from './entities/albums/albums.entity';
     CosModule,
     CatsModule,
     AuthModule,
-    WsStartModule
+    UniappModule,
+    WsStartModule,
+    QrcodeMetadataModule,
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
 })
-export class AppModule {
-
-}
+export class AppModule {}

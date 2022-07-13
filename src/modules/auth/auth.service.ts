@@ -6,6 +6,10 @@ import { UserService } from '../user/user.service';
 export class AuthService {
 
   constructor(private readonly userService: UserService, private readonly jwtService: JwtService,) { }
+
+  getHello(): string {
+    return 'Hello World!';
+  }
   async login(user) {
     const payload = { username: user.username, sub: user.id };
     return {

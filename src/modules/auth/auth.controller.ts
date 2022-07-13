@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request, Response, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Request, Response, HttpStatus } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto';
@@ -17,5 +17,15 @@ export class AuthController {
     res.cookie('pawwwww', 'aabbcc我是cookie', { maxAge: 1000 * 60 * 10, httpOnly: true })
 
     res.status(HttpStatus.OK).json({ code: 200, data: data.access_token, msg: '登录成功' });
+  }
+
+
+  @Get('/cookie')
+  async cookie(@Response() res) {
+    res.cookie('username', 'aabbcc我是cookie', { maxAge: 1000 * 60 * 10, httpOnly: true })
+    res.cookie('pawwwww', 'aabbcc我是cookie', { maxAge: 1000 * 60 * 10, httpOnly: true })
+    res.status(HttpStatus.OK).json({ code: 200, data: this.authService.getHello()});
+
+    // return this.authService.getHello()
   }
 }

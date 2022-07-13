@@ -1,14 +1,14 @@
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer, WsResponse } from "@nestjs/websockets";
 
 import * as WebSocket from 'ws';
-import { Server } from "socket.io";
+import { Server, Socket } from 'socket.io';
+
 import { from, map, Observable } from "rxjs";
-@WebSocketGateway(3008, {
-  // transports: ['websocket'],
-  // allowEIO3: true,
+// @WebSocketGateway(3008)
+@WebSocketGateway(3001, {
   cors: {
-    origin: '*'
-  }
+    origin: '*',
+  },
 })
 
 export class WsStartGateway {
@@ -16,9 +16,16 @@ export class WsStartGateway {
   @WebSocketServer()
   server: Server;
 
+  @SubscribeMessage('createD')
+  create(@MessageBody() createDDto) {
+    console.log('发送websocket')
+    return "ok";
+  }
+
   @SubscribeMessage('hello')
   hello(@MessageBody() data: any): any {
-    console.log('获取事件', data)
+    // console.log()
+    this.server.emit("createD", { data: "穷哈哈哈" })
     return {
       "event": "hello",
       "data": data,
@@ -38,14 +45,11 @@ export class WsStartGateway {
   }
 
   @SubscribeMessage('events')
-  onEvent(@MessageBody() data: unknown): Observable<WsResponse<number>> {
-    console.log('监听', data)
-    const event = 'events';
-    const response = [1, 2, 3];
-
-    return from(response).pipe(
-      map(data => ({ event, data })),
-    );
+  onEvent(client: Socket) {
+    client.emit('tips', {
+      code: -1,
+      msg: '非法操作，不可移除他人消息！',
+    });
   }
 
   // publecMessage(message: string): void {
